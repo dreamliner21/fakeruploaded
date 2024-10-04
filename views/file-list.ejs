@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>File List</title>
+  <link rel="stylesheet" href="/css/file-list.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+  <!-- Link ke Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+  <script defer src="/js/file-list.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Uploaded Files</h1>
+
+    <div class="input-group mb-3">
+      <input type="text" id="keyInput" class="form-control" placeholder="Enter key to filter files">
+      <button class="btn btn-outline-primary" id="showAllBtn">Show All</button>
+    </div>
+
+    <!-- Jika tidak ada file dalam JSON, tampilkan alert -->
+    <% if (files.length === 0) { %>
+      <div class="alert alert-warning" role="alert">
+        No files or media uploaded.
+      </div>
+    <% } else { %>
+      <!-- Jika ada file, tampilkan daftar file -->
+      <ul id="fileList" class="list-group">
+        <% files.forEach(file => { %>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <!-- Tampilkan ikon sesuai tipe file -->
+            <% if (file.mimetype.startsWith('image')) { %>
+              <i class="bi bi-file-image-fill file-icon"></i>
+            <% } else if (file.mimetype.startsWith('video')) { %>
+              <i class="bi bi-file-earmark-play-fill file-icon"></i>
+            <% } else if (file.mimetype.includes('zip') || file.mimetype.includes('compressed')) { %>
+              <i class="bi bi-file-earmark-zip-fill file-icon"></i>
+            <% } else { %>
+              <i class="bi bi-file-earmark-fill file-icon"></i>
+            <% } %>
+            <!-- Link ke file yang diupload -->
+            <a href="/uploads/<%= file.filename %>" target="_blank" class="file-link"><%= file.originalname %></a>
+          </li>
+        <% }) %>
+      </ul>
+    <% } %>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
